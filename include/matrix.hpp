@@ -5,6 +5,8 @@
 #include <vector>
 #include <cmath>
 
+// NOTE: Matrix module is still in progress and not feature-complete yet.
+
 class Matrix
 {
 private:

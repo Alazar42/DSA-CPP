@@ -6,6 +6,8 @@
 
 #include "matrix.hpp"
 
+// NOTE: Graph module is still in progress and not feature-complete yet.
+
 class Graph
 {
 private:

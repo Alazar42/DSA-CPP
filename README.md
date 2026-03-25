@@ -85,8 +85,12 @@ Build and run:
 - Stack: available
 - Queue: available
 - Tree: available
-- Graph: in progress (still being worked on)
-- Matrix: in progress (more features being added for easier understanding)
+- Graph: early stage, most planned features are not done yet
+- Matrix: early stage, most planned features are not done yet
+
+## Important Note
+
+Graph and Matrix modules are still under active development. Current implementations are learning-focused baselines and are not feature-complete yet.
 
 ## Matrix Notes
 
@@ -96,6 +100,11 @@ Current highlights:
 - Transpose
 - Determinant using LU decomposition with partial pivoting
 - Inverse using LU decomposition and forward/back substitution
+
+Planned next:
+- More matrix utility operations
+- Better API consistency
+- More beginner-friendly examples
 
 ## For Beginners
 

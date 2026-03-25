@@ -38,5 +38,7 @@ int main()
 
 	dg.visualize();
 
+    g.visualize();
+
 	return 0;
 }
