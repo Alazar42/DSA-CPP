@@ -4,4 +4,4 @@ project(DSA VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 17)
 
 include_directories(include)
-add_executable(DSA src/matrix.cpp)
+add_executable(DSA src/graph.cpp)

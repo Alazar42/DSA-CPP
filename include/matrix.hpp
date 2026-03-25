@@ -43,7 +43,56 @@ public:
         }
     }
 
-    auto determinant()
+    static Matrix identity(int size)
+    {
+        std::vector<double> identity_data(size * size, 0.0);
+        for (int i = 0; i < size; ++i)
+        {
+            identity_data[i * size + i] = 1.0;
+        }
+        return Matrix(identity_data, size, size);
+    }
+
+    static Matrix zero(int row, int column)
+    {
+        std::vector<double> zero_data(row * column, 0.0);
+        return Matrix(zero_data, row, column);
+    }
+
+    static Matrix ones(int row, int column)
+    {
+        std::vector<double> ones_data(row * column, 1.0);
+        return Matrix(ones_data, row, column);
+    }
+
+    static Matrix random(int row, int column, double min_value = 0.0, double max_value = 1.0)
+    {
+        std::vector<double> random_data(row * column);
+        for (size_t i = 0; i < random_data.size(); ++i)
+        {
+            random_data[i] = min_value + static_cast<double>(rand()) / RAND_MAX * (max_value - min_value);
+        }
+        return Matrix(random_data, row, column);
+    }
+
+    static Matrix random(int row, int column, int min_value = 0, int max_value = 1)
+    {
+        if (min_value > max_value)
+        {
+            std::cerr << "Error: min_value must be less than or equal to max_value.";
+            std::exit(1);
+        }
+
+        std::vector<int> random_data(row * column);
+        int range = max_value - min_value + 1;
+        for (size_t i = 0; i < random_data.size(); ++i)
+        {
+            random_data[i] = min_value + (std::rand() % range);
+        }
+        return Matrix(random_data, row, column);
+    }
+
+    auto determinant() const
     {
         if (this->row != this->column)
         {
@@ -106,7 +155,7 @@ public:
         return det;
     }
 
-    Matrix transpose()
+    Matrix transpose() const
     {
         Matrix transpose_matrix(data, this->column, this->row);
 
@@ -121,7 +170,7 @@ public:
         return transpose_matrix;
     }
 
-    Matrix inverse()
+    Matrix inverse() const
     {
         if (this->row != this->column)
         {
@@ -217,6 +266,80 @@ public:
         Matrix inverse_matrix(inverse_data, n, n);
 
         return inverse_matrix;
+    }
+
+    static Matrix addition(const Matrix &A, const Matrix &B)
+    {
+        if (A.row != B.row || A.column != B.column)
+        {
+            std::cerr << "Error: Matrices must have the same dimensions for addition.";
+            std::exit(1);
+        }
+
+        std::vector<double> result_data(A.data.size());
+
+        for (size_t i = 0; i < A.data.size(); ++i)
+        {
+            result_data[i] = A.data[i] + B.data[i];
+        }
+
+        return Matrix(result_data, A.row, A.column);
+    }
+
+    static Matrix subtraction(const Matrix &A, const Matrix &B)
+    {
+        if (A.row != B.row || A.column != B.column)
+        {
+            std::cerr << "Error: Matrices must have the same dimensions for subtraction.";
+            std::exit(1);
+        }
+
+        std::vector<double> result_data(A.data.size());
+
+        for (size_t i = 0; i < A.data.size(); ++i)
+        {
+            result_data[i] = A.data[i] - B.data[i];
+        }
+
+        return Matrix(result_data, A.row, A.column);
+    }
+
+    static Matrix multiplication(const Matrix &A, const Matrix &B)
+    {
+        if (A.column != B.row)
+        {
+            std::cerr << "Error: Number of columns in A must equal number of rows in B for multiplication.";
+            std::exit(1);
+        }
+
+        std::vector<double> result_data(A.row * B.column, 0.0);
+
+        for (size_t i = 0; i < A.row; ++i)
+        {
+            for (size_t j = 0; j < B.column; ++j)
+            {
+                double sum = 0.0;
+                for (size_t k = 0; k < A.column; ++k)
+                {
+                    sum += A.data[i * A.column + k] * B.data[k * B.column + j];
+                }
+                result_data[i * B.column + j] = sum;
+            }
+        }
+
+        return Matrix(result_data, A.row, B.column);
+    }
+
+    static Matrix division(const Matrix &A, const Matrix &B)
+    {
+        if (B.row != B.column)
+        {
+            std::cerr << "Error: B must be a square matrix for division.";
+            std::exit(1);
+        }
+
+        Matrix B_inv = B.inverse();
+        return multiplication(A, B_inv);
     }
 
     void print_list()
