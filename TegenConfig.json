@@ -1,0 +1,8 @@
+{
+    "author": "MickyCodes",
+    "dependencies": {},
+    "description": "A C++ project to learn about Data structures and Algorithms.",
+    "license": "MIT",
+    "name": "DSA",
+    "version": "1.0.0"
+}
